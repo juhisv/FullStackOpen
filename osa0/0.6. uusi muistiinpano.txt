@@ -1,0 +1,25 @@
+Title Single page appilla uusi muistiinpano
+
+note over selain:
+Käyttäjä syöttää tekstin 'abba' tekstikenttään
+ja painaa tallenna näppäintä
+end note
+note over selain:
+selaimen javascript koodi lisää muistiinpanon listalle ja piirtää sivun uudelleen 
+sisältäen uuden muistiinpanon. Tämän jälkeen selain rekisteröi lomakkeelle 
+tapahtumakäsittelijän ja hoitaa lähetyksen palvelimelle.
+end note
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over palvelin:
+pyyntö palvelimelle tulee json muodossa sisältäen
+muistiinpanon ja aikaleiman. Palvelin lisää muistiinpanon
+palvelimen pään listaan
+end note
+
+palvelin-->selain: 201 created
+
+note over selain:
+Selain tarkistaa, että palvelimen pää pysyy synkassa 
+jo selaimen päässä tehdyn operaation kanssa
+end note
