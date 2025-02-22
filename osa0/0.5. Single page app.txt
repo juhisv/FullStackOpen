@@ -1,23 +1,31 @@
-Title Single page app sivun sekvenssikaavio
+Title Avataan single page app sivu
 
-note over selain:
-Käyttäjä avaa Single page app sivun
-end note
+sequenceDiagram
+    participant browser
+    participant server
 
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
-palvelin-->selain: HTML koodi
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
-palvelin-->selain: main.css
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
-palvelin-->selain: spa.js
-note over selain:
-selain alkaa suorittaa js-koodia
-joka pyytää JSON-datan palvelimelta
-end note
+    Note right of browser: User open the page
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML file
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+    
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server    
 
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
-palvelin-->selain: data.json
-note over selain:
-selain suorittaa tapahtumankäsittelijän
-joka renderöi muistiinpanot näytölle
-end note
+    Note right of browser: The browser executes the callback function that renders the notes 
