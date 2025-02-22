@@ -1,43 +1,31 @@
-Title Tekstikenttään kirjoitus ja tallennus
+Title Save new note
 
-note over selain:
-Kirjoitetaan tekstikenttään 'babar' ja 
-tallennetaan, eli lähetetään lomake
-end note
+sequenceDiagram
+    participant browser
+    participant server
 
-selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+    Note right of browser: User write note and click save
 
-note over palvelin:
-Palvelin luo uutta muistiinpanoa vastaavan olion ja laittaa 
-sen muistiinpanot sisältävään taulukkoon nimeltään notes
-end note
-palvelin-->selain: HTTP status 302
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: Redirect request to browser
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: the css file
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+    
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server    
 
-note over selain:
-palvelimen 302 redirect kehoituksesta 
-tehdään selaimesta uusi HTTP GET
-end note
-
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
-palvelin-->selain: HTML koodi
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
-palvelin-->selain: main.css
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
-palvelin-->selain: main.js
-
-note over selain:
-selain alkaa suorittaa js-koodia
-joka pyytää JSON-datan palvelimelta
-end note
-
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
-note over palvelin:
-palvelin palauttaa nyt listan viimeisenä
-juuri syötetyn arvon 'babar'
-end note
-palvelin-->selain: [{content:"HTML on helppoa", date: "2019-01-01" }, ... ,{content:"babar",date:2019-05-02"}]
-
-note over selain:
-selain suorittaa tapahtumankäsittelijän
-joka renderöi muistiinpanot näytölle
-end note
+    Note right of browser: The browser executes the callback function that renders the notes 
