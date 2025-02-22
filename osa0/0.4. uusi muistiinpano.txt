@@ -5,9 +5,9 @@ sequenceDiagram
     participant server
 
     Note right of browser: User write note and click save
-
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
+    Note left of server: Server create new list element from created note
     server-->>browser: Redirect request to browser
     deactivate server
     
